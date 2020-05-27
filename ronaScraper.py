@@ -11,14 +11,16 @@ con = sqlite3.connect('data.db')
 c = con.cursor()
 
 # c.execute("""CREATE TABLE rki (
-#                 land text,
+#                 state text,
 #                 cases integer,
 #                 diff_last_day integer,
 #                 cases_last_seven integer,
 #                 seven_day_inzidenz real,
 #                 deaths text,
-#                 date text
+#                 date text,
+#                 PRIMARY KEY (state, date)
 #                 )""")
+
 
 site = requests.get(
     'https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Fallzahlen.html')
@@ -68,57 +70,57 @@ all = soup.findAll('td')
 
 def getData():
 
-    with open(file, 'a+', newline='') as csv_file:
-        csv_writer = writer(csv_file)
+    # with open(file, 'a+', newline='') as csv_file:
+    #     csv_writer = writer(csv_file)
 
-        i = 1
-        for elem in all:
+    i = 1
+    for elem in all:
 
-            # print(f'i: {i}')
-            # print(f'elem: {elem}')
-            if(i == 1):
-                land = elem.text
-                # print(f'land {land}')
-            elif(i == 2):
-                cases = elem.text
-                cases = cases.replace('.', '')
-                cases = int(cases)
-                # print(f'cases {cases}')
-            elif(i == 3):
-                diff_last_day = elem.text
-                diff_last_day = diff_last_day.replace('.', '')
-                diff_last_day = int(diff_last_day)
-                # print(f'diff_last_day {diff_last_day}')
-            elif(i == 4):
+        # print(f'i: {i}')
+        # print(f'elem: {elem}')
+        if(i == 1):
+            land = elem.text
+            # print(f'land {land}')
+        elif(i == 2):
+            cases = elem.text
+            cases = cases.replace('.', '')
+            cases = int(cases)
+            # print(f'cases {cases}')
+        elif(i == 3):
+            diff_last_day = elem.text
+            diff_last_day = diff_last_day.replace('.', '')
+            diff_last_day = int(diff_last_day)
+            # print(f'diff_last_day {diff_last_day}')
+        elif(i == 4):
 
-                cases_last_seven = elem.text
-                # print(f'cases_last_seven {cases_last_seven}')
-                cases_last_seven = cases_last_seven.replace('.', '')
-                cases_last_seven = int(cases_last_seven)
+            cases_last_seven = elem.text
+            # print(f'cases_last_seven {cases_last_seven}')
+            cases_last_seven = cases_last_seven.replace('.', '')
+            cases_last_seven = int(cases_last_seven)
 
-            elif(i == 5):
+        elif(i == 5):
 
-                seven_day_inzidenz = elem.text
-                # print(f'seven_day_inzidenz {seven_day_inzidenz}')
-                seven_day_inzidenz = seven_day_inzidenz.replace(',', '.')
-                seven_day_inzidenz = float(seven_day_inzidenz)
+            seven_day_inzidenz = elem.text
+            # print(f'seven_day_inzidenz {seven_day_inzidenz}')
+            seven_day_inzidenz = seven_day_inzidenz.replace(',', '.')
+            seven_day_inzidenz = float(seven_day_inzidenz)
 
-            elif(i == 6):
-                deaths = elem.text
-                # print(f'deaths {deaths}')
-                deaths = deaths.replace('.', '')
-                deaths = int(deaths)
+        elif(i == 6):
+            deaths = elem.text
+            # print(f'deaths {deaths}')
+            deaths = deaths.replace('.', '')
+            deaths = int(deaths)
 
-                print(
-                    f'{land}, {cases}, {diff_last_day}, {cases_last_seven}, {seven_day_inzidenz}, {deaths}')
-                # csv_writer.writerow(
-                #     [land, cases, diff_last_day, cases_last_seven, seven_day_inzidenz, deaths])
-                c.execute("INSERT INTO rki (land, cases, diff_last_day, cases_last_seven, seven_day_inzidenz, deaths, date) VALUES (?, ?, ?, ?, ?, ?, ?)",
-                          (land, cases, diff_last_day, cases_last_seven, seven_day_inzidenz, deaths, date))
-                i = 0
-                print(colored('#####', 'red'))
+            print(
+                f'{land}, {cases}, {diff_last_day}, {cases_last_seven}, {seven_day_inzidenz}, {deaths}')
+            # csv_writer.writerow(
+            #     [land, cases, diff_last_day, cases_last_seven, seven_day_inzidenz, deaths])
+            c.execute("INSERT INTO rki (state, cases, diff_last_day, cases_last_seven, seven_day_inzidenz, deaths, date) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                      (land, cases, diff_last_day, cases_last_seven, seven_day_inzidenz, deaths, date))
+            i = 0
+            print(colored('#####', 'red'))
 
-            i = i+1
+        i = i+1
 
 
 def read():
@@ -135,3 +137,4 @@ getData()
 
 con.commit()
 con.close()
+
