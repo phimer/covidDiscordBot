@@ -25,7 +25,7 @@ async def on_ready():
 
 @client.command(aliases=['hilf'])
 async def hilfe(ctx):
-    await ctx.send('!cases Deutschland -> gibt Infos zu Deutschland aus (Stand heute)\n!cases Hessen -> gibt Infos zu Bundesland (Stand heute)\n!cases Hessen 2020-05-28 -> gibt Infos zu bestimmten Tag')
+    await ctx.send('!c Deutschland -> gibt Infos zu Deutschland aus (Stand heute)\n!c Hessen -> gibt Infos zu Bundesland (Stand heute)\n!c Hessen 2020-05-28 -> gibt Infos zu bestimmten Tag')
 
 
 # @client.command(aliases=['de', 'Deutschland'])
