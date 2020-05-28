@@ -42,16 +42,26 @@ c = con.cursor()
 # c.execute("SELECT name FROM sqlite_master WHERE type='table';")
 # print(c.fetchall())
 
-c.execute("SELECT * FROM rki WHERE state='Bayern';")
-print(c.fetchall())
+
+#print('state, cases, diff_last_day, cases_last_seven, deaths, date')
+
+
+# c.execute("SELECT * FROM rki WHERE date='27.5.2020';")
+# print(c.fetchall())
 
 # c.execute("SELECT * FROM rki;")
 # print(c.fetchall())
 
 
-# c.execute("DELETE FROM rki WHERE land='baw'")
+# c.execute("DELETE FROM rki WHERE date='28.5.2020'")
 
+c.execute("SELECT * FROM rki WHERE date='28.5.2020';")
+print(c.fetchall())
 
+print('##########################################################')
+
+c.execute("SELECT * FROM rki WHERE date='2020-05-28';")
+print(c.fetchall())
 con.commit()
 
 
