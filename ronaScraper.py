@@ -87,6 +87,9 @@ def getData():
             if ('Meck' in land) or ('Brand' in land) or ('Nord' in land) or ('Nieder' in land):
                 land = land.replace('-', '', 1)
 
+            if (land == 'Gesamt'):
+                land = 'Deutschland'
+
             # asc_list = ([ord(c) for c in land])
             # print(asc_list)
             # # asc_list.pop(1)
