@@ -1,0 +1,154 @@
+from bs4 import BeautifulSoup
+import requests
+import sqlite3
+from termcolor import colored
+from time import sleep
+import datetime
+from datetime import datetime
+
+
+# c.execute("""CREATE TABLE rki (
+#                 state text,
+#                 cases integer,
+#                 diff_last_day integer,
+#                 cases_last_seven integer,
+#                 seven_day_inzidenz real,
+#                 deaths text,
+#                 date text,
+#                 PRIMARY KEY (state, date)
+#                 )""")
+
+
+site = requests.get(
+    'https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Fallzahlen.html')
+
+soup = BeautifulSoup(site.text, 'html.parser')
+
+
+# print(soup.title)
+# print(soup.title.name)
+# print(soup.title.string)
+# print(soup.title.parent.name)
+# print(soup.p)
+
+def getDate():
+
+    date = soup.find('h3', class_='null')
+
+    date = soup.find('h3', class_='null').find_next_sibling('p').get_text()
+
+    date = date[7:16]
+
+    # date = '8.4.2828'  # testdate
+
+    date_obj = datetime.strptime(date, '%d.%m.%Y')
+    # print(date_obj)
+
+    date_string = date_obj.strftime('%Y-%m-%d')
+    # print(date_string)
+
+    return date_string
+
+
+head = soup.findAll('th')
+
+# table = soup.findAll('tr')
+# # print(table[3])
+
+# print(table[18])
+# for row in table:
+#     # print(row[0])
+#     # print(row[1])
+#     # print(row)
+
+#     children = row.findChildren()
+#     for child in children:
+#         print(child.text)
+#     print(colored('#########################', 'green'))
+
+
+all = soup.findAll('td')
+
+
+def getData():
+
+    con = sqlite3.connect('data.db')
+    c = con.cursor()
+
+    i = 1
+    for elem in all:
+
+        # print(f'i: {i}')
+        # print(f'elem: {elem}')
+        if(i == 1):
+            land = elem.text
+            land = land.replace('\xad', '').replace('\n', '')
+
+            if ('Meck' in land) or ('Brand' in land) or ('Nord' in land) or ('Nieder' in land):
+                land = land.replace('-', '', 1)
+
+            # asc_list = ([ord(c) for c in land])
+            # print(asc_list)
+            # # asc_list.pop(1)
+            # test_list = ([chr(a) for a in asc_list])
+            # print(test_list)
+            # print(f'land {land}')
+        elif(i == 2):
+            cases = elem.text
+            cases = cases.replace('.', '')
+            cases = int(cases)
+            # print(f'cases {cases}')
+        elif(i == 3):
+            diff_last_day = elem.text
+            diff_last_day = diff_last_day.replace('.', '').replace('*', '')
+            diff_last_day = int(diff_last_day)
+            # print(f'diff_last_day {diff_last_day}')
+        elif(i == 4):
+
+            cases_last_seven = elem.text
+            # print(f'cases_last_seven {cases_last_seven}')
+            cases_last_seven = cases_last_seven.replace('.', '')
+            cases_last_seven = int(cases_last_seven)
+
+        elif(i == 5):
+
+            seven_day_inzidenz = elem.text
+            # print(f'seven_day_inzidenz {seven_day_inzidenz}')
+            seven_day_inzidenz = seven_day_inzidenz.replace(',', '.')
+            seven_day_inzidenz = float(seven_day_inzidenz)
+
+        elif(i == 6):
+            deaths = elem.text
+            # print(f'deaths {deaths}')
+            deaths = deaths.replace('.', '')
+            deaths = int(deaths)
+
+            print(
+                f'{land}, {cases}, {diff_last_day}, {cases_last_seven}, {seven_day_inzidenz}, {deaths}')
+
+            # c.execute("INSERT INTO rki (state, cases, diff_last_day, cases_last_seven, seven_day_inzidenz, deaths, date) VALUES (?, ?, ?, ?, ?, ?, ?)",
+            #           (land, cases, diff_last_day, cases_last_seven, seven_day_inzidenz, deaths, getDate()))
+            i = 0
+            # print(colored('#####', 'red'))
+
+        i = i+1
+
+    con.commit()
+    con.close()
+
+
+print(colored('###########', 'red'))
+
+print(getDate())
+print(colored('###########', 'blue'))
+getData()
+
+
+# while True:
+
+#     try:
+
+#         getData()
+#     except:
+#         pass
+#     sleep(3)
