@@ -53,12 +53,13 @@ c = con.cursor()
 # print(c.fetchall())
 
 
-# c.execute("DELETE FROM rki WHERE date='28.5.2020'")
+#c.execute("DELETE FROM rki WHERE state='NordrheinWestfalen'")
 
 
 print('##########################################################')
 
-c.execute("SELECT * FROM rki WHERE state='Deutschland';")
+#c.execute("SELECT * FROM rki WHERE state='Nordrhein-Westfalen';")
+c.execute("SELECT * FROM rki WHERE date='2020-05-29';")
 print(c.fetchall())
 
 #c.execute("UPDATE rki SET state = 'Deutschland' WHERE state = 'Gesamt';")

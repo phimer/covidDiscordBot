@@ -5,6 +5,7 @@ from termcolor import colored
 from time import sleep
 import datetime
 from datetime import datetime
+import schedule
 
 
 # c.execute("""CREATE TABLE rki (
@@ -45,7 +46,8 @@ def getDate():
     # print(date_obj)
 
     date_string = date_obj.strftime('%Y-%m-%d')
-    # print(date_string)
+
+    # print(colored(date_string, 'red'))
 
     return date_string
 
@@ -72,6 +74,10 @@ all = soup.findAll('td')
 
 def getData():
 
+    d = getDate()  # call getDate function to get date
+    print(d)
+    print(colored('##########', 'blue'))
+
     con = sqlite3.connect('data.db')
     c = con.cursor()
 
@@ -84,11 +90,14 @@ def getData():
             land = elem.text
             land = land.replace('\xad', '').replace('\n', '')
 
-            if ('Meck' in land) or ('Brand' in land) or ('Nord' in land) or ('Nieder' in land):
+            if ('Meck' in land) or ('Brand' in land) or ('Nieder' in land):
                 land = land.replace('-', '', 1)
 
             if (land == 'Gesamt'):
                 land = 'Deutschland'
+
+            if ('Nord' in land):
+                land = 'Nordrhein-Westfalen'
 
             # asc_list = ([ord(c) for c in land])
             # print(asc_list)
@@ -132,6 +141,7 @@ def getData():
             try:
                 c.execute("INSERT INTO rki (state, cases, diff_last_day, cases_last_seven, seven_day_inzidenz, deaths, date) VALUES (?, ?, ?, ?, ?, ?, ?)",
                           (land, cases, diff_last_day, cases_last_seven, seven_day_inzidenz, deaths, getDate()))
+                print(colored('Daten in Datenbank geschrieben', 'green'))
             except:
                 print(colored('Daten waren schon in Datenbank', 'red'))
             i = 0
@@ -143,18 +153,11 @@ def getData():
     con.close()
 
 
-print(colored('###########', 'red'))
+print(colored('##########', 'red'))
 
-print(getDate())
-print(colored('###########', 'blue'))
 getData()
+schedule.every().day.at('09:00').do(getData)
 
-
-# while True:
-
-#     try:
-
-#         getData()
-#     except:
-#         pass
-#     sleep(3)
+while True:
+    schedule.run_pending()
+    sleep(1)
