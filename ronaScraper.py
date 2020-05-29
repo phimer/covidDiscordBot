@@ -129,8 +129,11 @@ def getData():
             print(
                 f'{land}, {cases}, {diff_last_day}, {cases_last_seven}, {seven_day_inzidenz}, {deaths}')
 
-            # c.execute("INSERT INTO rki (state, cases, diff_last_day, cases_last_seven, seven_day_inzidenz, deaths, date) VALUES (?, ?, ?, ?, ?, ?, ?)",
-            #           (land, cases, diff_last_day, cases_last_seven, seven_day_inzidenz, deaths, getDate()))
+            try:
+                c.execute("INSERT INTO rki (state, cases, diff_last_day, cases_last_seven, seven_day_inzidenz, deaths, date) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                          (land, cases, diff_last_day, cases_last_seven, seven_day_inzidenz, deaths, getDate()))
+            except:
+                print(colored('Daten waren schon in Datenbank', 'red'))
             i = 0
             # print(colored('#####', 'red'))
 
