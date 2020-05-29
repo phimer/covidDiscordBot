@@ -155,7 +155,7 @@ def getData():
 
 print(colored('##########', 'red'))
 
-getData()
+
 schedule.every().day.at('09:00').do(getData)
 
 while True:
