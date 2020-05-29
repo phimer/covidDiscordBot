@@ -153,7 +153,7 @@ def getData():
     con.close()
 
 
-print(colored('##########', 'red'))
+print(colored('scraping rki', 'red'))
 
 
 schedule.every().day.at('09:00').do(getData)
