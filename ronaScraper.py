@@ -155,6 +155,7 @@ def getData():
 
 print(colored('scraping rki', 'red'))
 
+getData()
 
 schedule.every().day.at('10:00').do(getData)
 
