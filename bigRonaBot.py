@@ -38,7 +38,6 @@ async def hilfe(ctx):
 async def c(ctx, *, land):
     # Hessen 2020-08-12
     sp = land.split()
-    print(sp)
     if (len(sp) > 1):
         land = sp[0]
         print(land)
@@ -46,6 +45,7 @@ async def c(ctx, *, land):
         print(date)
         await ctx.send(returnToBot(land, date))
     else:
+        print(land)
         await ctx.send(returnToBot(land))
 
 
