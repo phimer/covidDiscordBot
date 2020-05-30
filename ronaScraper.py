@@ -156,7 +156,7 @@ def getData():
 print(colored('scraping rki', 'red'))
 
 
-schedule.every().day.at('09:00').do(getData)
+schedule.every().day.at('10:00').do(getData)
 
 while True:
     schedule.run_pending()
