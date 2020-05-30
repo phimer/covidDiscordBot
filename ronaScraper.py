@@ -26,13 +26,18 @@ site = requests.get(
 soup = BeautifulSoup(site.text, 'html.parser')
 
 
+
+world_site = requests.get('https://www.worldometers.info/coronavirus/')
+
+world_soup = BeautifulSoup(world_site.text, 'html.parser')
+
 # print(soup.title)
 # print(soup.title.name)
 # print(soup.title.string)
 # print(soup.title.parent.name)
 # print(soup.p)
 
-def getDate():
+def getRkiDate():
 
     date = soup.find('h3', class_='null')
 
@@ -52,31 +57,24 @@ def getDate():
     return date_string
 
 
-head = soup.findAll('th')
-
-# table = soup.findAll('tr')
-# # print(table[3])
-
-# print(table[18])
-# for row in table:
-#     # print(row[0])
-#     # print(row[1])
-#     # print(row)
-
-#     children = row.findChildren()
-#     for child in children:
-#         print(child.text)
-#     print(colored('#########################', 'green'))
 
 
-all = soup.findAll('td')
 
 
-def getData():
 
-    d = getDate()  # call getDate function to get date
+
+
+def getRkiData():
+
+
+    print(colored('scraping rki', 'red'))
+
+    d = getRkiDate()  # call getDate function to get date
     print(d)
     print(colored('##########', 'blue'))
+
+
+    all = soup.findAll('td')
 
     con = sqlite3.connect('data.db')
     c = con.cursor()
@@ -153,12 +151,39 @@ def getData():
     con.close()
 
 
-print(colored('scraping rki', 'red'))
 
-getData()
+def getWorldData():
 
-schedule.every().day.at('10:00').do(getData)
+    tr = world_soup.findAll('tr')
+    #print(tr)
 
-while True:
-    schedule.run_pending()
-    sleep(1)
+    for t in tr:
+        ch = t.findChildren()
+        #print(ch)
+        for c in ch:
+            print(c.text)
+            print ('\n\n\n\n\n\n')
+
+    # for c in countries:
+    #     print(c.text)
+
+
+    # rows = world_soup.findAll(class_='even')
+    # print(rows)
+    # for row in rows:
+    #     child = row.findChildren()
+    #     print(child)
+    #     print("")
+
+
+
+getWorldData()
+
+
+#getRkiData()
+
+#schedule.every().day.at('10:00').do(getRkiData)
+
+# while True:
+#     schedule.run_pending()
+#     sleep(1)

@@ -59,7 +59,7 @@ c = con.cursor()
 print('##########################################################')
 
 #c.execute("SELECT * FROM rki WHERE state='Nordrhein-Westfalen';")
-c.execute("SELECT * FROM rki WHERE date='2020-05-29';")
+c.execute("SELECT * FROM rki WHERE state='Deutschland';")
 print(c.fetchall())
 
 #c.execute("UPDATE rki SET state = 'Deutschland' WHERE state = 'Gesamt';")
