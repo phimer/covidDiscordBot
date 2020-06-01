@@ -26,7 +26,6 @@ site = requests.get(
 soup = BeautifulSoup(site.text, 'html.parser')
 
 
-
 world_site = requests.get('https://www.worldometers.info/coronavirus/')
 
 world_soup = BeautifulSoup(world_site.text, 'html.parser')
@@ -36,6 +35,7 @@ world_soup = BeautifulSoup(world_site.text, 'html.parser')
 # print(soup.title.string)
 # print(soup.title.parent.name)
 # print(soup.p)
+
 
 def getRkiDate():
 
@@ -57,22 +57,13 @@ def getRkiDate():
     return date_string
 
 
-
-
-
-
-
-
-
 def getRkiData():
-
 
     print(colored('scraping rki', 'red'))
 
     d = getRkiDate()  # call getDate function to get date
     print(d)
     print(colored('##########', 'blue'))
-
 
     all = soup.findAll('td')
 
@@ -151,22 +142,20 @@ def getRkiData():
     con.close()
 
 
-
 def getWorldData():
 
     tr = world_soup.findAll('tr')
-    #print(tr)
+    # print(tr)
 
     for t in tr:
         ch = t.findChildren()
-        #print(ch)
+        # print(ch)
         for c in ch:
             print(c.text)
-            print ('\n\n\n\n\n\n')
+            print('\n\n\n\n\n\n')
 
     # for c in countries:
     #     print(c.text)
-
 
     # rows = world_soup.findAll(class_='even')
     # print(rows)
@@ -176,14 +165,12 @@ def getWorldData():
     #     print("")
 
 
+# getWorldData()
 
-getWorldData()
+getRkiData()
 
+schedule.every().day.at('10:00').do(getRkiData)
 
-#getRkiData()
-
-#schedule.every().day.at('10:00').do(getRkiData)
-
-# while True:
-#     schedule.run_pending()
-#     sleep(1)
+while True:
+    schedule.run_pending()
+    sleep(1)
