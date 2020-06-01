@@ -44,6 +44,8 @@ def getRkiDate():
     date = soup.find('h3', class_='null').find_next_sibling('p').get_text()
 
     date = date[7:16]
+    date = date.replace(',', '')
+    print(date)
 
     # date = '8.4.2828'  # testdate
 
