@@ -131,7 +131,7 @@ def getRkiData():
 
             try:
                 c.execute("INSERT INTO rki (state, cases, diff_last_day, cases_last_seven, seven_day_inzidenz, deaths, date) VALUES (?, ?, ?, ?, ?, ?, ?)",
-                          (land, cases, diff_last_day, cases_last_seven, seven_day_inzidenz, deaths, getDate()))
+                          (land, cases, diff_last_day, cases_last_seven, seven_day_inzidenz, deaths, getRkiDate()))
                 print(colored('Daten in Datenbank geschrieben', 'green'))
             except:
                 print(colored('Daten waren schon in Datenbank', 'red'))
