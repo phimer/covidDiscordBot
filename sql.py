@@ -53,7 +53,7 @@ c = con.cursor()
 # print(c.fetchall())
 
 
-#c.execute("DELETE FROM rki WHERE state='NordrheinWestfalen'")
+#c.execute("DELETE FROM rki WHERE date='2020-06-03'")
 
 
 print('##########################################################')
@@ -65,7 +65,15 @@ print(c.fetchall())
 #c.execute("UPDATE rki SET state = 'Deutschland' WHERE state = 'Gesamt';")
 
 
-con.commit()
+# con.commit()
+
+while True:
+
+    inp = input(
+        "Enter SQL Command: SELECT * FROM rki WHERE state='Deutschland';")
+
+    c.execute(inp)
+    print(c.fetchall())
 
 
 con.close()
