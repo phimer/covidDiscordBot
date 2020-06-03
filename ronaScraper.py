@@ -171,7 +171,7 @@ def getWorldData():
 
 # getWorldData()
 
-# getRkiData()
+getRkiData()
 
 schedule.every().day.at('10:00').do(getRkiData)
 
