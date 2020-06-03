@@ -7,7 +7,7 @@ import datetime
 from datetime import datetime
 import schedule
 
-print(colored('scraper running'), 'red')
+print(colored('scraper running', 'red'))
 
 
 # c.execute("""CREATE TABLE rki (
