@@ -22,12 +22,6 @@ print(colored('scraper running', 'red'))
 #                 )""")
 
 
-site = requests.get(
-    'https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Fallzahlen.html')
-
-soup = BeautifulSoup(site.text, 'html.parser')
-
-
 world_site = requests.get('https://www.worldometers.info/coronavirus/')
 
 world_soup = BeautifulSoup(world_site.text, 'html.parser')
@@ -40,6 +34,11 @@ world_soup = BeautifulSoup(world_site.text, 'html.parser')
 
 
 def getRkiDate():
+
+    site = requests.get(
+        'https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Fallzahlen.html')
+
+    soup = BeautifulSoup(site.text, 'html.parser')
 
     date = soup.find('h3', class_='null')
 
@@ -64,6 +63,11 @@ def getRkiDate():
 def getRkiData():
 
     print(colored('scraping rki', 'red'))
+
+    site = requests.get(
+        'https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Fallzahlen.html')
+
+    soup = BeautifulSoup(site.text, 'html.parser')
 
     d = getRkiDate()  # call getDate function to get date
     print(d)
