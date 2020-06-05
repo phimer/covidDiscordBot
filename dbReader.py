@@ -128,7 +128,7 @@ def returnToBot(land, *args):
             datum = datum-datetime.timedelta(days=1)
             # print(f'date in else {date}')
             add = f'\nNo data available - data is too old'
-    end += add
+    end = add+end
     return end
 
 
