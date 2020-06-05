@@ -117,9 +117,9 @@ def returnToBot(land, *args):
             # print(f'date in if {date}')
             end = read(land, datum)
             if (i > 0):
-                add = f'\nNo data for that day available - data is {i} day older'
+                add = f'\nNo data for that day available - data is {i} day older\n'
             if (i > 1):
-                add = f'\nNo data for that day available - data is {i} days older'
+                add = f'\nNo data for that day available - data is {i} days older\n'
             break
 
         else:
@@ -127,7 +127,7 @@ def returnToBot(land, *args):
             # print('no')
             datum = datum-datetime.timedelta(days=1)
             # print(f'date in else {date}')
-            add = f'\nNo data available - data is too old'
+            add = f'\nNo data available - data is too old\n'
     end = add+end
     return end
 
