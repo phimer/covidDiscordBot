@@ -53,27 +53,32 @@ c = con.cursor()
 # print(c.fetchall())
 
 
-#c.execute("DELETE FROM rki WHERE date='2020-06-03'")
+# c.execute(
+#     "DELETE FROM rki WHERE date='2020-06-05' and state='MecklenburgVorpommern';")
 
+# c.execute("""UPDATE rki SET state='Mecklenburg-Vorpommern' WHERE state='MecklenburgVorpommern';""")
 
-print('##########################################################')
+# print('##########################################################')
 
-#c.execute("SELECT * FROM rki WHERE state='Nordrhein-Westfalen';")
-c.execute("SELECT * FROM rki WHERE state='Deutschland';")
+# #c.execute("SELECT * FROM rki WHERE state='Nordrhein-Westfalen';")
+# c.execute("SELECT * FROM rki WHERE state='MecklenburgVorpommern';")
+# print(c.fetchall())
+
+c.execute("SELECT * FROM rki WHERE state='Mecklenburg-Vorpommern';")
 print(c.fetchall())
-
 #c.execute("UPDATE rki SET state = 'Deutschland' WHERE state = 'Gesamt';")
 
 
-# con.commit()
+con.commit()
 
-while True:
 
-    inp = input(
-        "Enter SQL Command: SELECT * FROM rki WHERE state='Deutschland';")
+# while True:
 
-    c.execute(inp)
-    print(c.fetchall())
+#     inp = input(
+#         "Enter SQL Command: SELECT * FROM rki WHERE state='Deutschland';")
+
+#     c.execute(inp)
+#     print(c.fetchall())
 
 
 con.close()
