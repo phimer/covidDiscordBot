@@ -33,12 +33,7 @@ world_soup = BeautifulSoup(world_site.text, 'html.parser')
 # print(soup.p)
 
 
-def getRkiDate():
-
-    site = requests.get(
-        'https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Fallzahlen.html')
-
-    soup = BeautifulSoup(site.text, 'html.parser')
+def getRkiDate(soup):
 
     date = soup.find('h3', class_='null')
 
@@ -69,8 +64,8 @@ def getRkiData():
 
     soup = BeautifulSoup(site.text, 'html.parser')
 
-    d = getRkiDate()  # call getDate function to get date
-    print(d)
+    dat = getRkiDate(soup)  # call getDate function to get date
+    print(dat)
     print(colored('##########', 'blue'))
 
     all = soup.findAll('td')
@@ -137,7 +132,7 @@ def getRkiData():
 
             try:
                 c.execute("INSERT INTO rki (state, cases, diff_last_day, cases_last_seven, seven_day_inzidenz, deaths, date) VALUES (?, ?, ?, ?, ?, ?, ?)",
-                          (land, cases, diff_last_day, cases_last_seven, seven_day_inzidenz, deaths, getRkiDate()))
+                          (land, cases, diff_last_day, cases_last_seven, seven_day_inzidenz, deaths, dat))
                 print(colored('Daten in Datenbank geschrieben', 'green'))
             except:
                 print(colored('Daten waren schon in Datenbank', 'red'))
