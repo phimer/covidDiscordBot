@@ -82,7 +82,7 @@ def getRkiData():
             land = elem.text
             land = land.replace('\xad', '').replace('\n', '')
 
-            if ('Meck' in land) or ('Brand' in land) or ('Nieder' in land):
+            if ('Brand' in land) or ('Nieder' in land):  # ('Meck' in land) or
                 land = land.replace('-', '', 1)
 
             if (land == 'Gesamt'):
