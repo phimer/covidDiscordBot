@@ -110,6 +110,7 @@ def returnToBot(land, *args):
     for i in range(0, 4):
 
         # print(f'date in for {date}')
+        end = ''
         add = ''
         if checkIfDataForDateAvailable(land, datum):
             # print('yes')
