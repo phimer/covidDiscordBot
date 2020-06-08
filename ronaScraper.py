@@ -22,10 +22,6 @@ print(colored('scraper running', 'red'))
 #                 )""")
 
 
-world_site = requests.get('https://www.worldometers.info/coronavirus/')
-
-world_soup = BeautifulSoup(world_site.text, 'html.parser')
-
 # print(soup.title)
 # print(soup.title.name)
 # print(soup.title.string)
@@ -64,8 +60,8 @@ def getRkiData():
 
     soup = BeautifulSoup(site.text, 'html.parser')
 
-    dat = getRkiDate(soup)  # call getDate function to get date
-    print(dat)
+    current_date = getRkiDate(soup)  # call getDate function to get date
+    print(current_date)
     print(colored('##########', 'blue'))
 
     all = soup.findAll('td')
@@ -128,11 +124,11 @@ def getRkiData():
             deaths = int(deaths)
 
             print(
-                f'{land}, {cases}, {diff_last_day}, {cases_last_seven}, {seven_day_inzidenz}, {deaths}')
+                f'{land}, {cases}, {diff_last_day}, {cases_last_seven}, {seven_day_inzidenz}, {deaths}, {current_date}')
 
             try:
                 c.execute("INSERT INTO rki (state, cases, diff_last_day, cases_last_seven, seven_day_inzidenz, deaths, date) VALUES (?, ?, ?, ?, ?, ?, ?)",
-                          (land, cases, diff_last_day, cases_last_seven, seven_day_inzidenz, deaths, dat))
+                          (land, cases, diff_last_day, cases_last_seven, seven_day_inzidenz, deaths, current_date))
                 print(colored('Daten in Datenbank geschrieben', 'green'))
             except:
                 print(colored('Daten waren schon in Datenbank', 'red'))
@@ -147,6 +143,9 @@ def getRkiData():
 
 def getWorldData():
 
+    world_site = requests.get('https://www.worldometers.info/coronavirus/')
+    world_soup = BeautifulSoup(world_site.text, 'html.parser')
+
     tr = world_soup.findAll('tr')
     # print(tr)
 
@@ -155,7 +154,7 @@ def getWorldData():
         # print(ch)
         for c in ch:
             print(c.text)
-            print('\n\n\n\n\n\n')
+            print('\n\n')
 
     # for c in countries:
     #     print(c.text)
