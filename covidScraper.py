@@ -1,3 +1,6 @@
+# This gets daily data from rki and saves it to a database
+
+
 from bs4 import BeautifulSoup
 import requests
 import sqlite3

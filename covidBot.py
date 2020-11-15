@@ -1,3 +1,5 @@
+# This is the discord Bot - allows users to request rki data through discord chat commands
+
 import discord
 from discord.ext import commands
 from termcolor import colored
